@@ -8,8 +8,7 @@ namespace HotelProject.WebApi.Mapping
     {
         public AutoMapperConfig()
         {
-            CreateMap<AddRoomDto, Room>();
-            CreateMap<Room, AddRoomDto>();
+            CreateMap<AddRoomDto, Room>().ReverseMap();
 
             CreateMap<UpdateRoomDto,Room>().ReverseMap();
         }
