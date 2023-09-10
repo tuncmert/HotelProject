@@ -6,18 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-{
-    opt.RequireHttpsMetadata = false;
-    opt.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidIssuer="http://localhost",
-        ValidAudience="http://localhost",
-        IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aspnetcoreapiapi")),
-        ValidateIssuerSigningKey = true,
-        ValidateLifetime=true
-    };
-});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
