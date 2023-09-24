@@ -3,6 +3,7 @@ using HotelProject.BusinessLayer.Concrete;
 using HotelProject.DataAccessLayer.Abstract;
 using HotelProject.DataAccessLayer.Concrete;
 using HotelProject.DataAccessLayer.EntityFramework;
+using HotelProject.EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IContactService, ContactManager>();
 
 builder.Services.AddScoped<IGuestDal, EfGuestDal>();
 builder.Services.AddScoped<IGuestService, GuestManager>();
+
+builder.Services.AddScoped<ISendMessageDal, EfSendMessageDal>();
+builder.Services.AddScoped<ISendMessageService, SendMessageManager>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
