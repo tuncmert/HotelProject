@@ -19,14 +19,23 @@ namespace HotelProject.WebUI.Controllers
         public async Task<IActionResult> Inbox()
         {
             var client = _httpClientFactory.CreateClient();
+            var client2 = _httpClientFactory.CreateClient();
+            var client3 = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync("http://localhost:5270/api/Contact");
+            var responseMessage2 = await client2.GetAsync("http://localhost:5270/api/Contact/GetContactCount");
+            var responseMessage3 = await client3.GetAsync("http://localhost:5270/api/SendMessage/GetSendMessageCount");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
+                var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
+                ViewBag.contactCount = jsonData2;
+                var jsonData3 = await responseMessage3.Content.ReadAsStringAsync();
+                ViewBag.sendMessageCount = jsonData3;
                 return View(values);
 
             }
+
             return View();
         }
 
@@ -64,8 +73,16 @@ namespace HotelProject.WebUI.Controllers
             }
             return View();
         }
-        public PartialViewResult SideBarAdminContantPartial()
+        public async Task<PartialViewResult> SideBarAdminContantPartial()
         {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("http://localhost:5270/api/Contact/GetContactCount");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                ViewBag.a = jsonData;
+
+            }
             return PartialView();
         }
         public PartialViewResult SideBarAdminContantCategoryPartial()
@@ -96,5 +113,19 @@ namespace HotelProject.WebUI.Controllers
             }
             return View();
         }
+        //public async Task<IActionResult> GetContactCount()
+        //{
+        //    var client = _httpClientFactory.CreateClient();
+        //    var responseMessage = await client.GetAsync("http://localhost:5270/api/Contact/GetContactCount");
+        //    if (responseMessage.IsSuccessStatusCode)
+        //    {
+        //        var jsonData = await responseMessage.Content.ReadAsStringAsync();
+        //        ViewBag.data = jsonData;
+        //        var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
+        //        return View(values);
+
+        //    }
+        //    return View();
+        //}
     }
 }
